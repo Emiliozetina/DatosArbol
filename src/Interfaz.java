@@ -9,7 +9,6 @@ public class Interfaz extends JFrame {
     private JTextArea taSalida;
     private DrawPanel panelDibujo;
 
-    // raíz del árbol actual
     private Nodo raiz;
 
     public Interfaz() {
@@ -21,7 +20,7 @@ public class Interfaz extends JFrame {
     }
 
     private void initComponents() {
-        tfExpresion = new JTextField("( 3 + 5 ) * ( 2 - 4 )"); // ejemplo con tokens separados por espacios
+        tfExpresion = new JTextField("( 3 + 5 ) * ( 2 - 4 )"); 
         btnConstruir = new JButton("Construir Árbol");
         taSalida = new JTextArea(4, 30);
         taSalida.setEditable(false);
@@ -45,7 +44,6 @@ public class Interfaz extends JFrame {
         getContentPane().add(panelDibujo, BorderLayout.CENTER);
         getContentPane().add(right, BorderLayout.EAST);
 
-        // Listeners
         btnConstruir.addActionListener(e -> construirAccion());
     }
 
@@ -69,7 +67,6 @@ public class Interfaz extends JFrame {
         }
     }
 
-    // Panel que dibuja el árbol. Calcula posiciones con un recorrido inOrden para espaciar nodos.
     private static class DrawPanel extends JPanel {
         private Nodo root;
         private Map<Nodo, Point> posicion = new HashMap<>();
@@ -88,7 +85,6 @@ public class Interfaz extends JFrame {
             xCounter = 0;
             if (r != null) {
                 computePositions(r, 0);
-                // ajustar preferencia de tamaño según la cantidad de nodos horizontales
                 int width = Math.max(600, (xCounter + 1) * (nodeRadius * 2));
                 int height = Math.max(400, (maxDepth(root) + 2) * nivelAltura);
                 setPreferredSize(new Dimension(width, height));
@@ -99,7 +95,6 @@ public class Interfaz extends JFrame {
             repaint();
         }
 
-        // asigna coordenadas x en orden ascendente y y por profundidad
         private void computePositions(Nodo nodo, int depth) {
             if (nodo == null) return;
             computePositions(nodo.izquierdo, depth + 1);
@@ -126,7 +121,6 @@ public class Interfaz extends JFrame {
             Graphics2D g2 = (Graphics2D) g;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-            // dibujar aristas primero
             g2.setStroke(new BasicStroke(2));
             g2.setColor(Color.DARK_GRAY);
             for (Map.Entry<Nodo, Point> e : posicion.entrySet()) {
@@ -142,18 +136,18 @@ public class Interfaz extends JFrame {
                 }
             }
 
-            // dibujar nodos
             for (Map.Entry<Nodo, Point> e : posicion.entrySet()) {
                 Nodo n = e.getKey();
                 Point p = e.getValue();
                 int x = p.x - nodeRadius;
                 int y = p.y - nodeRadius;
-                // círculo
+                
                 g2.setColor(new Color(135, 206, 250));
                 g2.fillOval(x, y, nodeRadius * 2, nodeRadius * 2);
                 g2.setColor(Color.BLUE.darker());
                 g2.drawOval(x, y, nodeRadius * 2, nodeRadius * 2);
-                // texto centrado
+
+
                 String text = n.valor;
                 FontMetrics fm = g2.getFontMetrics();
                 int tx = p.x - fm.stringWidth(text) / 2;
@@ -164,7 +158,6 @@ public class Interfaz extends JFrame {
         }
     }
 
-    // Lanzador simple
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             Interfaz f = new Interfaz();
