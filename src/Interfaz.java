@@ -49,10 +49,6 @@ public class Interfaz extends JFrame {
 
     private void construirAccion() {
         String expr = tfExpresion.getText().trim();
-        if (expr.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ingrese una expresión.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
         try {
             java.util.List<String> postfija = ArbolAritmetico.infijaAPostfija(expr);
             taSalida.setText("Postfija: " + postfija + "\n");
@@ -113,11 +109,6 @@ public class Interfaz extends JFrame {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            if (root == null) {
-                g.setColor(Color.GRAY);
-                g.drawString("No hay árbol. Presione 'Construir Árbol'.", 20, 20);
-                return;
-            }
             Graphics2D g2 = (Graphics2D) g;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
