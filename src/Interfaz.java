@@ -6,7 +6,6 @@ public class Interfaz extends JFrame {
 
     private JTextField tfExpresion;
     private JButton btnConstruir;
-    private JButton btnEvaluar;
     private JTextArea taSalida;
     private DrawPanel panelDibujo;
 
@@ -24,7 +23,6 @@ public class Interfaz extends JFrame {
     private void initComponents() {
         tfExpresion = new JTextField("( 3 + 5 ) * ( 2 - 4 )"); // ejemplo con tokens separados por espacios
         btnConstruir = new JButton("Construir Árbol");
-        btnEvaluar = new JButton("Evaluar");
         taSalida = new JTextArea(4, 30);
         taSalida.setEditable(false);
         panelDibujo = new DrawPanel();
@@ -36,7 +34,6 @@ public class Interfaz extends JFrame {
 
         JPanel controls = new JPanel(new FlowLayout(FlowLayout.LEFT));
         controls.add(btnConstruir);
-        controls.add(btnEvaluar);
         top.add(controls, BorderLayout.SOUTH);
 
         JPanel right = new JPanel(new BorderLayout());
@@ -50,7 +47,6 @@ public class Interfaz extends JFrame {
 
         // Listeners
         btnConstruir.addActionListener(e -> construirAccion());
-        btnEvaluar.addActionListener(e -> evaluarAccion());
     }
 
     private void construirAccion() {
@@ -66,21 +62,10 @@ public class Interfaz extends JFrame {
             panelDibujo.setRoot(raiz);
             panelDibujo.revalidate();
             panelDibujo.repaint();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error al construir: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private void evaluarAccion() {
-        if (raiz == null) {
-            JOptionPane.showMessageDialog(this, "Construya el árbol primero.", "Info", JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
-        try {
             int resultado = ArbolAritmetico.evaluar(raiz);
             taSalida.append("Resultado: " + resultado + "\n");
         } catch (Exception ex) {
-            taSalida.append("Error al evaluar: " + ex.getMessage() + "\n");
+            JOptionPane.showMessageDialog(this, "Error al construir: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
