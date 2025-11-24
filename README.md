@@ -1,3 +1,6 @@
+1. Que se cree en base a preorden, postorden, normal
+2. Que se ajuste el tamaño 
+
 Tarea de Algoritmos 
 
 Emilio Zetina Sánchez 
