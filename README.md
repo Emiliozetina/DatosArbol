@@ -1,5 +1,7 @@
 1. Que se cree en base a preorden, postorden, normal
-2. Que se ajuste el tamaño 
+2. Que se ajuste el tamaño del árbol para que no se vaya todo al borde
+3. Tal vez hacer más pequeños los nodos
+4. Que pregunte de cuantos nodos va a ser el árbol
 
 Tarea de Algoritmos 
 
