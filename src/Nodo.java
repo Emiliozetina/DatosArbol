@@ -1,3 +1,10 @@
+//Emilio Zetina 
+//ID: 0055615
+//Alfredo Vieto
+//ID: 00558680
+//Ing. TI
+
+
 class Nodo {
     //Atributos
     int datos;
