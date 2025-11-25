@@ -35,7 +35,7 @@ public class Arbol {
         return nodo;
     }
 
-    // --- NUEVO: Eliminar Nodo ---
+    //Elimiinar un nodo
     void eliminar(int valor) {
         raiz = eliminarRecursivo(raiz, valor);
     }
@@ -48,14 +48,12 @@ public class Arbol {
         } else if (valor > nodo.datos) {
             nodo.nodoDerecho = eliminarRecursivo(nodo.nodoDerecho, valor);
         } else {
-            // Encontrado: nodo a eliminar
             
-            // Caso 1: Sin hijos o solo uno
+            //Max un hijo
             if (nodo.nodoIzquierdo == null) return nodo.nodoDerecho;
             if (nodo.nodoDerecho == null) return nodo.nodoIzquierdo;
 
-            // Caso 2: Dos hijos
-            // Buscar sucesor (menor del subárbol derecho)
+            //Dos hijos
             nodo.datos = valorMinimo(nodo.nodoDerecho);
             // Eliminar el sucesor encontrado
             nodo.nodoDerecho = eliminarRecursivo(nodo.nodoDerecho, nodo.datos);
@@ -72,7 +70,6 @@ public class Arbol {
         return minv;
     }
 
-    // --- NUEVO: Balancear Árbol ---
     void balancearArbol() {
         List<Integer> nodosOrdenados = obtenerInorden();
         raiz = construirBalanceado(nodosOrdenados, 0, nodosOrdenados.size() - 1);
@@ -87,7 +84,6 @@ public class Arbol {
         return nodo;
     }
 
-    // --- NUEVO: Info de Nodos ---
     Nodo obtenerNodo(int valor) {
         return buscarNodoRecursivo(raiz, valor);
     }
@@ -135,7 +131,6 @@ public class Arbol {
         }
     }
 
-    //Genera codigos aleatorios y los inserta al arbol
     void generarCodigoAleatorio(int cantidad){
         Random random = new Random();
         int generados = 0;
@@ -146,7 +141,6 @@ public class Arbol {
         }
     }
 
-    //Buscar un valor en el arbol
     boolean buscar(int valor) {
         boolean encontrado = buscarRecursivo(raiz, valor);
         if (encontrado) {
@@ -169,7 +163,6 @@ public class Arbol {
         }
     }
 
-    //Contar los nodos del arbol
     int contarNodos() {
         return contarRecursivo(raiz);
     }
@@ -181,11 +174,7 @@ public class Arbol {
         return 1 + contarRecursivo(nodo.nodoIzquierdo) + contarRecursivo(nodo.nodoDerecho);
     }
 
-    // --- LÓGICA DE RECORRIDOS OPTIMIZADA ---
-    // Ahora los métodos imprimir reutilizan los métodos de obtener lista.
-    // Esto evita tener código duplicado para la misma lógica de recorrido.
 
-    // Preorden
     List<Integer> obtenerPreorden() {
         List<Integer> lista = new ArrayList<>();
         llenarPreorden(raiz, lista);
@@ -204,7 +193,6 @@ public class Arbol {
         System.out.println();
     }
 
-    // Inorden
     List<Integer> obtenerInorden() {
         List<Integer> lista = new ArrayList<>();
         llenarInorden(raiz, lista);
@@ -223,7 +211,6 @@ public class Arbol {
         System.out.println();
     }
 
-    // Postorden
     List<Integer> obtenerPostorden() {
         List<Integer> lista = new ArrayList<>();
         llenarPostorden(raiz, lista);
@@ -242,7 +229,6 @@ public class Arbol {
         System.out.println();
     }
 
-    //Impresion grafica del arbol en consola
     void imprimir(){
         mostrarArbol(raiz, 0);
     }
