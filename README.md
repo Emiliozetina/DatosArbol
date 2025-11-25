@@ -1,9 +1,4 @@
-1. Que se cree en base a preorden, postorden, normal
-2. Que se ajuste el tamaño del árbol para que no se vaya todo al borde
-3. Tal vez hacer más pequeños los nodos
-4. Que pregunte de cuantos nodos va a ser el árbol
-
-Tarea de Algoritmos 
+Proyecto final Ordinario Algoritmos
 
 Emilio Zetina Sánchez 
 Alfredo Vieto Solis 
@@ -15,20 +10,49 @@ Ingenieria en TI Anahuac Mayab
 
 Estructura de Datos y Algoritmos 
 
+Descripción del proyecto
+-----------------------
+Este proyecto implementa conversión, evaluación y visualización de expresiones aritméticas usando árboles binarios de expresión. Incluye una interfaz gráfica (desarrollada en Apache NetBeans) que permite introducir expresiones en notación infija/prefija/postfija, convertir entre notaciones, evaluar resultados y mostrar el árbol de expresión con sus recorridos.
 
-/*Descargar el código y realizar lo siguiente:
-1. mostrarlo en un entorno grafico utilizando ApaceNetBeans, se evaluará el uso de los componentes graficos.
-2. Describir que es la notación postfija, prefija e infija
-3. ¿Por qué se aplica en la solución de operaciones aritméticas?
-4. Relación o parecido en los recorridos Preorden, Inorden y PostOrden.
-*/
+Requisitos
+----------
+- Java JDK 8 en adelante
 
+Funciones principales
+---------------------
+- Recorrido de expresiones con soporte de paréntesis y precedencia de operadores.  
+- Conversiones: infijo <-> prefijo <-> postfijo.  
+- Evaluación de expresiones en cualquier notación.  
+- Visualización gráfica del árbol de expresión y despliegue de recorridos (Preorden, Inorden, Postorden).
 
-2. 
-- Infija: Es la regular que utilizamos en las matematicas de cada dia, primero un numero, después el operador y despues otro número (1 + 2).
-- Prefija: Primero va el operador que se va a usar, y después los numeros (+ 1 2 ).
-- Postfija: Primero van los números y después los operadores (1 2 + ).
+Definiciones de notación
+------------------------
+- Infija: Notación habitual en matemáticas; el operador va entre operandos. Ejemplo: 1 + 2  
+- Prefija: El operador va antes de sus operandos. Ejemplo: + 1 2  
+- Postfija: El operador va después de sus operandos. Ejemplo: 1 2 +
 
-3. Se aplica por la importancia de los operadores y el parentesis al realizar operaciones aritmeticas ya que permiten describir la estructura de la expresión aritmetica.
+¿Por qué se usan estas notaciones?
+----------------------------------
+- Las notaciones prefija y postfija eliminan la ambigüedad de paréntesis si se interpretan con la estructura de árbol correcta, simplificando la evaluación mediante pilas o recorridos del árbol.  
+- En notación infija se requieren reglas de precedencia y/o paréntesis para preservar el orden deseado de operaciones.  
+- Para evaluación automática y conversión, las notaciones prefija/postfija permiten algoritmos eficientes (por ejemplo, Shunting-yard para convertir infija a postfija y evaluación por pila para postfija).
 
-4. Son similares en su manera de recorrer la operación, la infija va primero al primero número (el izquierdo), luego al operando y después el segundo numero justo como lo haria el Preorden al recorrer un árbol, asi igualmente funciona con las demás, siendo la Prefija y Postfija practicamente identicas al recorrido InOrden y PostOrden.
+Relación con recorridos de árboles (Preorden, Inorden, PostOrden)
+-----------------------------------------------------------------
+- Preorden (Root, Left, Right)  → Representa la notación prefija cuando se recorre el árbol de expresión.  
+- Inorden (Left, Root, Right)  → Representa la notación infija (mantiene la estructura con paréntesis).  
+- Postorden (Left, Right, Root) → Representa la notación postfija; su evaluación con pila produce el resultado sin necesidad de paréntesis.  
+- Convertir una expresión a un árbol y aplicar estos recorridos genera las notaciones equivalentes y muestra la correspondencia directa entre expresiones y recorridos.
+
+Ejemplos rápidos del funcionamiento ideal del proyecto
+--------------------------------------------------------
+- Infija: (3 + 4) * 5  
+- Prefija: * + 3 4 5  
+- Postfija: 3 4 + 5 *
+
+-------
+Emilio Zetina Sánchez (00556615)  
+Alfredo Vieto Solis (00558680)  
+Ingeniería en TI — Anáhuac Mayab  
+Estructura de Datos y Algoritmos
+
