@@ -1,14 +1,10 @@
 Proyecto final Ordinario Algoritmos
+-------------------------------------
 
-Emilio Zetina Sánchez 
-Alfredo Vieto Solis 
-
-00556615
-00558680
-
-Ingenieria en TI Anahuac Mayab 
-
-Estructura de Datos y Algoritmos 
+Emilio Zetina Sánchez (ID: 00556615)  
+Alfredo Vieto Solis (ID: 00558680)  
+Ingeniería en TI — Anáhuac Mayab  
+Estructura de Datos y Algoritmos
 
 Descripción del proyecto
 -----------------------
@@ -50,9 +46,5 @@ Ejemplos rápidos del funcionamiento ideal del proyecto
 - Prefija: * + 3 4 5  
 - Postfija: 3 4 + 5 *
 
--------
-Emilio Zetina Sánchez (00556615)  
-Alfredo Vieto Solis (00558680)  
-Ingeniería en TI — Anáhuac Mayab  
-Estructura de Datos y Algoritmos
+
 
