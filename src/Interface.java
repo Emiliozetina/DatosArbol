@@ -28,7 +28,6 @@ public class Interface extends JFrame {
     private String tipoRecorrido = "";
     private List<Integer> recorrido = new ArrayList<>();
     
-    // Para la animación
     private Timer timerAnimacion;
     private int indiceAnimacion = 0;
 
@@ -54,7 +53,6 @@ public class Interface extends JFrame {
         
         panel = new DrawPanel();
 
-        // Panel de controles superior
         JPanel top = new JPanel(new GridLayout(2, 1));
         
         JPanel row1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -91,7 +89,6 @@ public class Interface extends JFrame {
     }
 
     private void construirArbol() {
-        // Opciones para el usuario
         Object[] options = {"Aleatorio", "Manual"};
         
         int choice = JOptionPane.showOptionDialog(this,
@@ -195,15 +192,13 @@ public class Interface extends JFrame {
         } catch (Exception e) {}
     }
 
-    // Método unificado para iniciar animaciones
     private void iniciarAnimacion(String nombre, List<Integer> listaRecorrido) {
         if (timerAnimacion != null && timerAnimacion.isRunning()) timerAnimacion.stop();
         
         tipoRecorrido = nombre;
         recorrido = listaRecorrido;
-        indiceAnimacion = 0; // Empezar desde 0
+        indiceAnimacion = 0; 
         
-        // Timer para añadir nodos uno por uno
         timerAnimacion = new Timer(300, e -> {
             if (indiceAnimacion < recorrido.size()) {
                 indiceAnimacion++;
@@ -226,7 +221,6 @@ public class Interface extends JFrame {
     }
 
     private class DrawPanel extends JPanel {
-        // Clase auxiliar para guardar posición y valor de nodos dibujados
         private class NodoArea {
             Rectangle area;
             int valor;
@@ -237,8 +231,7 @@ public class Interface extends JFrame {
 
         public DrawPanel() {
             setBackground(Color.WHITE);
-            // Añadir listener para Tooltips
-            setToolTipText(""); // Habilitar tooltips
+            setToolTipText(""); //Tooltips
             addMouseMotionListener(new MouseAdapter() {
                 @Override
                 public void mouseMoved(MouseEvent e) {
@@ -257,7 +250,6 @@ public class Interface extends JFrame {
                         int niv = arbol.calcularNivel(n, n.datos);
                         int g = arbol.calcularGrado(n);
                         
-                        // HTML en el tooltip permite multilínea
                         setToolTipText("<html><b>Nodo: " + n.datos + "</b><br>" +
                                        "Altura: " + h + "<br>" +
                                        "Nivel: " + niv + "<br>" +
@@ -273,7 +265,7 @@ public class Interface extends JFrame {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            ubicacionesNodos.clear(); // Limpiar ubicaciones anteriores
+            ubicacionesNodos.clear(); 
             
             if (arbol.raiz != null) {
                 dibujarArbol(g, arbol.raiz, getWidth() / 2, 40, getWidth() / 4);
@@ -288,7 +280,6 @@ public class Interface extends JFrame {
             
             g.setFont(new Font("Arial", Font.BOLD, 12));
             
-            // Dibujar líneas hacia los hijos
             g.setColor(Color.BLACK);
             if (nodo.nodoIzquierdo != null) {
                 g.drawLine(x, y, x - separacion, y + 80);
@@ -299,14 +290,12 @@ public class Interface extends JFrame {
                 dibujarArbol(g, nodo.nodoDerecho, x + separacion, y + 80, separacion / 2);
             }
             
-            // Dibujar el nodo
             g.setColor(new Color(180, 220, 255));
             g.fillOval(x - 20, y - 20, 40, 40);
             g.setColor(Color.BLACK);
             g.drawOval(x - 20, y - 20, 40, 40);
             g.drawString(String.valueOf(nodo.datos), x - 10, y + 5);
             
-            // Guardar ubicación para el tooltip
             ubicacionesNodos.add(new NodoArea(new Rectangle(x - 20, y - 20, 40, 40), nodo.datos));
         }
 
@@ -318,7 +307,6 @@ public class Interface extends JFrame {
             int x = 30;
             int y = getHeight() - 50;
             
-            // Dibujar solo hasta donde vaya la animación
             for (int i = 0; i < indiceAnimacion && i < recorrido.size(); i++) {
                 int valor = recorrido.get(i);
                 g.setColor(new Color(255, 200, 200));
