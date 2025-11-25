@@ -1,9 +1,14 @@
 class Nodo {
-    String valor;
-    Nodo izquierdo, derecho;
+    //Atributos
+    int datos;
+    Nodo nodoIzquierdo;
+    Nodo nodoDerecho;
 
-    Nodo(String valor) {
-        this.valor = valor;
-        izquierdo = derecho = null;
+    //Constructor
+    public Nodo(int datos) {
+        this.datos = datos;
+        this.nodoIzquierdo = null;
+        this.nodoDerecho = null;
     }
+
 }
