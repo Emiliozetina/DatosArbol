@@ -1,3 +1,9 @@
+//Emilio Zetina 
+//ID: 0055615
+//Alfredo Vieto
+//ID: 00558680
+//Ing. TI
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
