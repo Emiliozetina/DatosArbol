@@ -5,6 +5,7 @@
 //Ing. TI
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -16,37 +17,55 @@ public class Arbol {
         this.raiz = null;
     }
 
-    void insertar(int datos) {
-        raiz = insertarRecursivo(raiz, datos);
+    // Retorna boolean (éxito o fallo por duplicado)
+    boolean insertar(String nombre, double costo) {
+        // Verificar si ya existe un producto con ese nombre
+        if (buscar(nombre)) {
+            System.out.println("Error: El producto '" + nombre + "' ya existe.");
+            return false;
+        }
+        raiz = insertarRecursivo(raiz, nombre, costo);
+        return true;
     }
 
-    Nodo insertarRecursivo(Nodo nodo, int datos) {
+    Nodo insertarRecursivo(Nodo nodo, String nombre, double costo) {
         if (nodo == null){
-            return new Nodo(datos);
+            return new Nodo(nombre, costo);
         }
         else{
-            if(datos < nodo.datos){
-                nodo.nodoIzquierdo = insertarRecursivo(nodo.nodoIzquierdo, datos);
+            // Ordenamos por costo
+            if(costo < nodo.costo){
+                nodo.nodoIzquierdo = insertarRecursivo(nodo.nodoIzquierdo, nombre, costo);
             }
             else{
-                nodo.nodoDerecho = insertarRecursivo(nodo.nodoDerecho, datos);
+                nodo.nodoDerecho = insertarRecursivo(nodo.nodoDerecho, nombre, costo);
             }
         }
         return nodo;
     }
 
-    //Elimiinar un nodo
-    void eliminar(int valor) {
-        raiz = eliminarRecursivo(raiz, valor);
+    // Eliminar un nodo por costo
+    void eliminar(double costo) {
+        raiz = eliminarRecursivo(raiz, costo);
+    }
+    
+    // Eliminar un nodo por nombre
+    boolean eliminar(String nombre) {
+        Nodo nodo = obtenerNodo(nombre);
+        if (nodo != null) {
+            eliminar(nodo.costo);
+            return true;
+        }
+        return false;
     }
 
-    Nodo eliminarRecursivo(Nodo nodo, int valor) {
+    Nodo eliminarRecursivo(Nodo nodo, double costo) {
         if (nodo == null) return null;
 
-        if (valor < nodo.datos) {
-            nodo.nodoIzquierdo = eliminarRecursivo(nodo.nodoIzquierdo, valor);
-        } else if (valor > nodo.datos) {
-            nodo.nodoDerecho = eliminarRecursivo(nodo.nodoDerecho, valor);
+        if (costo < nodo.costo) {
+            nodo.nodoIzquierdo = eliminarRecursivo(nodo.nodoIzquierdo, costo);
+        } else if (costo > nodo.costo) {
+            nodo.nodoDerecho = eliminarRecursivo(nodo.nodoDerecho, costo);
         } else {
             
             //Max un hijo
@@ -54,44 +73,63 @@ public class Arbol {
             if (nodo.nodoDerecho == null) return nodo.nodoIzquierdo;
 
             //Dos hijos
-            nodo.datos = valorMinimo(nodo.nodoDerecho);
+            Nodo temp = valorMinimo(nodo.nodoDerecho);
+            nodo.costo = temp.costo;
+            nodo.nombre = temp.nombre;
             // Eliminar el sucesor encontrado
-            nodo.nodoDerecho = eliminarRecursivo(nodo.nodoDerecho, nodo.datos);
+            nodo.nodoDerecho = eliminarRecursivo(nodo.nodoDerecho, temp.costo);
         }
         return nodo;
     }
 
-    int valorMinimo(Nodo nodo) {
-        int minv = nodo.datos;
-        while (nodo.nodoIzquierdo != null) {
-            minv = nodo.nodoIzquierdo.datos;
-            nodo = nodo.nodoIzquierdo;
+    Nodo valorMinimo(Nodo nodo) {
+        Nodo current = nodo;
+        while (current.nodoIzquierdo != null) {
+            current = current.nodoIzquierdo;
         }
-        return minv;
+        return current;
     }
 
     void balancearArbol() {
-        List<Integer> nodosOrdenados = obtenerInorden();
+        List<Nodo> nodosOrdenados = new ArrayList<>();
+        llenarInordenNodos(raiz, nodosOrdenados);
         raiz = construirBalanceado(nodosOrdenados, 0, nodosOrdenados.size() - 1);
     }
 
-    private Nodo construirBalanceado(List<Integer> lista, int inicio, int fin) {
+    private Nodo construirBalanceado(List<Nodo> lista, int inicio, int fin) {
         if (inicio > fin) return null;
         int medio = (inicio + fin) / 2;
-        Nodo nodo = new Nodo(lista.get(medio));
+        Nodo temp = lista.get(medio);
+        Nodo nodo = new Nodo(temp.nombre, temp.costo);
         nodo.nodoIzquierdo = construirBalanceado(lista, inicio, medio - 1);
         nodo.nodoDerecho = construirBalanceado(lista, medio + 1, fin);
         return nodo;
     }
 
-    Nodo obtenerNodo(int valor) {
-        return buscarNodoRecursivo(raiz, valor);
+    // Buscar por costo exacto
+    Nodo obtenerNodo(double costo) {
+        return buscarNodoRecursivo(raiz, costo);
     }
     
-    private Nodo buscarNodoRecursivo(Nodo nodo, int valor) {
-        if (nodo == null || nodo.datos == valor) return nodo;
-        if (valor < nodo.datos) return buscarNodoRecursivo(nodo.nodoIzquierdo, valor);
-        return buscarNodoRecursivo(nodo.nodoDerecho, valor);
+    // Buscar por nombre (Búsqueda exhaustiva)
+    Nodo obtenerNodo(String nombre) {
+        return buscarNodoPorNombreRecursivo(raiz, nombre);
+    }
+    
+    private Nodo buscarNodoRecursivo(Nodo nodo, double costo) {
+        if (nodo == null || nodo.costo == costo) return nodo;
+        if (costo < nodo.costo) return buscarNodoRecursivo(nodo.nodoIzquierdo, costo);
+        return buscarNodoRecursivo(nodo.nodoDerecho, costo);
+    }
+    
+    private Nodo buscarNodoPorNombreRecursivo(Nodo nodo, String nombre) {
+        if (nodo == null) return null;
+        if (nodo.nombre.equalsIgnoreCase(nombre)) return nodo;
+        
+        Nodo izquierdo = buscarNodoPorNombreRecursivo(nodo.nodoIzquierdo, nombre);
+        if (izquierdo != null) return izquierdo;
+        
+        return buscarNodoPorNombreRecursivo(nodo.nodoDerecho, nombre);
     }
 
     int calcularAltura(Nodo nodo) {
@@ -99,16 +137,16 @@ public class Arbol {
         return 1 + Math.max(calcularAltura(nodo.nodoIzquierdo), calcularAltura(nodo.nodoDerecho));
     }
 
-    int calcularNivel(Nodo nodo, int valor) {
-        return obtenerNivelRecursivo(raiz, valor, 1);
+    int calcularNivel(Nodo nodo, double costo) {
+        return obtenerNivelRecursivo(raiz, costo, 1);
     }
 
-    private int obtenerNivelRecursivo(Nodo nodo, int valor, int nivel) {
+    private int obtenerNivelRecursivo(Nodo nodo, double costo, int nivel) {
         if (nodo == null) return 0;
-        if (nodo.datos == valor) return nivel;
-        int abajo = obtenerNivelRecursivo(nodo.nodoIzquierdo, valor, nivel + 1);
+        if (nodo.costo == costo) return nivel;
+        int abajo = obtenerNivelRecursivo(nodo.nodoIzquierdo, costo, nivel + 1);
         if (abajo != 0) return abajo;
-        return obtenerNivelRecursivo(nodo.nodoDerecho, valor, nivel + 1);
+        return obtenerNivelRecursivo(nodo.nodoDerecho, costo, nivel + 1);
     }
     
     int calcularGrado(Nodo nodo) {
@@ -126,40 +164,46 @@ public class Arbol {
             for (int i = 0; i < nivel; i++) {
                 System.out.print("    ");
             }
-            System.out.println(nodo.datos);
+            System.out.println(nodo.nombre + " ($" + nodo.costo + ")");
             mostrarArbol(nodo.nodoIzquierdo, nivel + 1);
         }
     }
 
-    void generarCodigoAleatorio(int cantidad){
-        Random random = new Random();
-        int generados = 0;
-        while(generados < cantidad){
-            int codigo = 1000 + random.nextInt(9000);
-            insertar(codigo);
-            generados++;
+    // Método actualizado para recibir una lista de productos disponibles y elegir al azar sin repetir
+    void generarProductosAleatorios(int cantidad, List<Producto> disponibles){
+        if (disponibles.isEmpty()) return;
+        
+        // Hacemos una copia para barajar y sacar productos únicos
+        List<Producto> copia = new ArrayList<>(disponibles);
+        Collections.shuffle(copia);
+        
+        int insertados = 0;
+        for (Producto prod : copia) {
+            if (insertados >= cantidad) break;
+            if (insertar(prod.nombre, prod.costo)) {
+                insertados++;
+            }
         }
     }
 
-    boolean buscar(int valor) {
-        boolean encontrado = buscarRecursivo(raiz, valor);
-        if (encontrado) {
-            System.out.println("El codigo " + valor + " fue encontrado");
-        } else {
-            System.out.println("No existe el codigo " + valor);
-        }
+    boolean buscar(double costo) {
+        boolean encontrado = buscarRecursivo(raiz, costo);
         return encontrado;
     }
+    
+    boolean buscar(String nombre) {
+        return obtenerNodo(nombre) != null;
+    }
 
-    boolean buscarRecursivo(Nodo nodo, int valor) {
+    boolean buscarRecursivo(Nodo nodo, double costo) {
         if (nodo == null) {
             return false;
-        } else if (nodo.datos == valor) {
+        } else if (nodo.costo == costo) {
             return true;
-        } else if (valor < nodo.datos) {
-            return buscarRecursivo(nodo.nodoIzquierdo, valor);
+        } else if (costo < nodo.costo) {
+            return buscarRecursivo(nodo.nodoIzquierdo, costo);
         } else {
-            return buscarRecursivo(nodo.nodoDerecho, valor);
+            return buscarRecursivo(nodo.nodoDerecho, costo);
         }
     }
 
@@ -174,81 +218,52 @@ public class Arbol {
         return 1 + contarRecursivo(nodo.nodoIzquierdo) + contarRecursivo(nodo.nodoDerecho);
     }
 
-
-    List<Integer> obtenerPreorden() {
-        List<Integer> lista = new ArrayList<>();
+    List<Nodo> obtenerPreorden() {
+        List<Nodo> lista = new ArrayList<>();
         llenarPreorden(raiz, lista);
         return lista;
     }
-    private void llenarPreorden(Nodo nodo, List<Integer> lista) {
+    private void llenarPreorden(Nodo nodo, List<Nodo> lista) {
         if (nodo != null) {
-            lista.add(nodo.datos);
+            lista.add(nodo);
             llenarPreorden(nodo.nodoIzquierdo, lista);
             llenarPreorden(nodo.nodoDerecho, lista);
         }
     }
-    void imprimirPreorden(){
-        List<Integer> lista = obtenerPreorden();
-        for(int dato : lista) System.out.print(dato + ", ");
-        System.out.println();
-    }
-
-    List<Integer> obtenerInorden() {
-        List<Integer> lista = new ArrayList<>();
-        llenarInorden(raiz, lista);
+    
+    List<Nodo> obtenerInorden() {
+        List<Nodo> lista = new ArrayList<>();
+        llenarInordenNodos(raiz, lista);
         return lista;
     }
-    private void llenarInorden(Nodo nodo, List<Integer> lista) {
+    private void llenarInordenNodos(Nodo nodo, List<Nodo> lista) {
         if (nodo != null) {
-            llenarInorden(nodo.nodoIzquierdo, lista);
-            lista.add(nodo.datos);
-            llenarInorden(nodo.nodoDerecho, lista);
+            llenarInordenNodos(nodo.nodoIzquierdo, lista);
+            lista.add(nodo);
+            llenarInordenNodos(nodo.nodoDerecho, lista);
         }
     }
-    void imprimirInorden(){
-        List<Integer> lista = obtenerInorden();
-        for(int dato : lista) System.out.print(dato + ", ");
-        System.out.println();
-    }
 
-    List<Integer> obtenerPostorden() {
-        List<Integer> lista = new ArrayList<>();
+    List<Nodo> obtenerPostorden() {
+        List<Nodo> lista = new ArrayList<>();
         llenarPostorden(raiz, lista);
         return lista;
     }
-    private void llenarPostorden(Nodo nodo, List<Integer> lista) {
+    private void llenarPostorden(Nodo nodo, List<Nodo> lista) {
         if (nodo != null) {
             llenarPostorden(nodo.nodoIzquierdo, lista);
             llenarPostorden(nodo.nodoDerecho, lista);
-            lista.add(nodo.datos);
+            lista.add(nodo);
         }
     }
-    void imprimirPostorden(){
-        List<Integer> lista = obtenerPostorden();
-        for(int dato : lista) System.out.print(dato + ", ");
-        System.out.println();
-    }
 
-    void imprimir(){
+    void imprimir() {
         mostrarArbol(raiz, 0);
     }
 
     public static void main(String[] args) {
         Arbol obj =  new Arbol();
-        
-        System.out.println("\nArbol con códigos aleatorios:");
-        obj.generarCodigoAleatorio(4);
+        obj.insertar("Test", 10);
         obj.imprimir();
-
-        System.out.println("\nRecorrido en Preorden:");
-        obj.imprimirPreorden();
-
-        System.out.println("Recorrido en Inorden:");
-        obj.imprimirInorden();
-
-        System.out.println("Recorrido en Postorden:");
-        obj.imprimirPostorden();
-
-        System.out.println("Cantidad total de nodos: " + obj.contarNodos());
     }
 }
