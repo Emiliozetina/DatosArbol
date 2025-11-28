@@ -7,7 +7,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class Arbol {
     
@@ -17,7 +16,6 @@ public class Arbol {
         this.raiz = null;
     }
 
-    // Retorna boolean (éxito o fallo por duplicado)
     boolean insertar(String nombre, double costo) {
         // Verificar si ya existe un producto con ese nombre
         if (buscar(nombre)) {
@@ -33,7 +31,7 @@ public class Arbol {
             return new Nodo(nombre, costo);
         }
         else{
-            // Ordenamos por costo
+            // Ordenar por costo
             if(costo < nodo.costo){
                 nodo.nodoIzquierdo = insertarRecursivo(nodo.nodoIzquierdo, nombre, costo);
             }
@@ -44,12 +42,10 @@ public class Arbol {
         return nodo;
     }
 
-    // Eliminar un nodo por costo
     void eliminar(double costo) {
         raiz = eliminarRecursivo(raiz, costo);
     }
     
-    // Eliminar un nodo por nombre
     boolean eliminar(String nombre) {
         Nodo nodo = obtenerNodo(nombre);
         if (nodo != null) {
@@ -106,12 +102,10 @@ public class Arbol {
         return nodo;
     }
 
-    // Buscar por costo exacto
     Nodo obtenerNodo(double costo) {
         return buscarNodoRecursivo(raiz, costo);
     }
     
-    // Buscar por nombre (Búsqueda exhaustiva)
     Nodo obtenerNodo(String nombre) {
         return buscarNodoPorNombreRecursivo(raiz, nombre);
     }
@@ -169,11 +163,9 @@ public class Arbol {
         }
     }
 
-    // Método actualizado para recibir una lista de productos disponibles y elegir al azar sin repetir
     void generarProductosAleatorios(int cantidad, List<Producto> disponibles){
         if (disponibles.isEmpty()) return;
         
-        // Hacemos una copia para barajar y sacar productos únicos
         List<Producto> copia = new ArrayList<>(disponibles);
         Collections.shuffle(copia);
         

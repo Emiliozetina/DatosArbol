@@ -23,23 +23,19 @@ public class Interface extends JFrame {
     private JButton botonBalancear;
     private JButton botonLimpiar;
     
-    // Botones de recorrido
     private JButton botonInorden;
     private JButton botonPreorden;
     private JButton botonPostorden;
     
-    // Panel lateral
-    private JList<Producto> listaProductos; // Usamos Producto
+    private JList<Producto> listaProductos; 
     private DefaultListModel<Producto> modeloLista;
     private JButton botonAgregarSeleccionados;
 
-    // Variables para animación controladas por Interface (Controlador)
     private Timer timerAnimacion;
     private int indiceAnimacion = 0;
     private List<Nodo> recorridoActual = new ArrayList<>();
     private String nombreRecorridoActual = "";
 
-    // Lista predefinida de 20 productos
     private final List<Producto> inventarioBase = new ArrayList<>();
 
     public Interface() {
@@ -53,6 +49,7 @@ public class Interface extends JFrame {
     }
     
     private void cargarInventarioBase() {
+        //El inventario default 
         inventarioBase.add(new Producto("Chicle", 5.0));
         inventarioBase.add(new Producto("Paleta", 8.0));
         inventarioBase.add(new Producto("Agua", 12.0));
@@ -76,7 +73,7 @@ public class Interface extends JFrame {
     }
 
     private void initComponents() {
-        // --- Panel Superior (Botones) ---
+        // Botones
         botonConstruir = new JButton("Crear Tienda");
         botonInsertar = new JButton("Nuevo Producto Custom");
         botonEliminar = new JButton("Eliminar (Nombre)");
@@ -108,10 +105,10 @@ public class Interface extends JFrame {
         top.add(row1);
         top.add(row2);
 
-        // --- Panel Central (Dibujo) ---
+        // Main 
         panelDibujo = new PanelArbol(arbol); // Inicializamos el panel separado
 
-        // --- Panel Derecho (Lista de Productos) ---
+        // List de prod
         JPanel panelDerecho = new JPanel(new BorderLayout());
         panelDerecho.setBorder(BorderFactory.createTitledBorder("Inventario Disponible"));
         panelDerecho.setPreferredSize(new Dimension(250, 0));
@@ -127,7 +124,7 @@ public class Interface extends JFrame {
         
         botonAgregarSeleccionados = new JButton("Agregar Seleccionados al Árbol");
         
-        // Etiqueta de ayuda
+
         JLabel labelAyuda = new JLabel("<html><center><small>Usa <b>Ctrl+Click</b> para<br>seleccionar varios</small></center></html>", SwingConstants.CENTER);
         labelAyuda.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
@@ -135,13 +132,13 @@ public class Interface extends JFrame {
         panelDerecho.add(new JScrollPane(listaProductos), BorderLayout.CENTER);
         panelDerecho.add(botonAgregarSeleccionados, BorderLayout.SOUTH);
 
-        // --- Layout Principal ---
+        // Layout
         setLayout(new BorderLayout());
         add(top, BorderLayout.NORTH);
         add(panelDibujo, BorderLayout.CENTER);
         add(panelDerecho, BorderLayout.EAST);
 
-        // --- Eventos ---
+        //Los listener
         botonConstruir.addActionListener(e -> construirArbolDialogo());
         botonAgregarSeleccionados.addActionListener(e -> agregarDesdeSeleccion());
         botonLimpiar.addActionListener(e -> limpiarArbolCompleto());
@@ -311,7 +308,6 @@ public class Interface extends JFrame {
         recorridoActual = listaRecorrido;
         indiceAnimacion = 0; 
         
-        // Estado inicial
         panelDibujo.actualizarAnimacion(nombreRecorridoActual, recorridoActual, indiceAnimacion);
         
         timerAnimacion = new Timer(500, e -> {
@@ -331,7 +327,7 @@ public class Interface extends JFrame {
         nombreRecorridoActual = "";
         recorridoActual.clear();
         indiceAnimacion = 0;
-        panelDibujo.limpiar(); // Delegamos la limpieza visual
+        panelDibujo.limpiar();
     }
 
     public static void main(String[] args) {

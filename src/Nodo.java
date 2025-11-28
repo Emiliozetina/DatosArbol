@@ -6,13 +6,12 @@
 
 
 class Nodo {
-    //Atributos
-    double costo; // Precio del producto (clave de ordenamiento)
-    String nombre; // Nombre del producto
+
+    double costo; 
+    String nombre;
     Nodo nodoIzquierdo;
     Nodo nodoDerecho;
 
-    //Constructor
     public Nodo(String nombre, double costo) {
         this.nombre = nombre;
         this.costo = costo;

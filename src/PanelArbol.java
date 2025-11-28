@@ -37,7 +37,6 @@ public class PanelArbol extends JPanel {
         });
     }
     
-    // Métodos para controlar la animación desde el controlador
     public void actualizarAnimacion(String tipo, List<Nodo> lista, int indice) {
         this.tipoRecorrido = tipo;
         this.recorrido = lista;
@@ -52,7 +51,6 @@ public class PanelArbol extends JPanel {
         repaint();
     }
     
-    // Si se cambia el objeto árbol (ej. al limpiar todo), actualizar referencia
     public void setArbol(Arbol nuevoArbol) {
         this.arbol = nuevoArbol;
         repaint();
