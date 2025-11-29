@@ -8,7 +8,7 @@ Estructura de Datos y Algoritmos
 
 Descripción del proyecto
 -----------------------
-Este proyecto implementa conversión, evaluación y visualización de expresiones aritméticas usando árboles binarios de expresión. Incluye una interfaz gráfica (desarrollada en Apache NetBeans) que permite introducir expresiones en notación infija/prefija/postfija, convertir entre notaciones, evaluar resultados y mostrar el árbol de expresión con sus recorridos.
+Este proyecto busca simular el almacen de una tienda mediante arboles binarios. Incluye una interfaz gráfica (desarrollada en Apache NetBeans) que permite introducir expresiones en notación infija/prefija/postfija, convertir entre notaciones, evaluar resultados y mostrar el árbol de expresión con sus recorridos.
 
 Requisitos
 ----------
